@@ -81,6 +81,8 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
         document?.content.hardwareModelData = supportedConfig.hardwareModel.dataRepresentation
         document?.content.machineIdentifierData = machineIdentifier.dataRepresentation
         
+        document?.content.macAddress = VZMACAddress.randomLocallyAdministered().string
+        
         let diskURL = documentURL.appendingPathComponent("disk.img")
         
         do {
@@ -209,6 +211,11 @@ class VMInstance: NSObject, VZVirtualMachineDelegate {
         let entropy = VZVirtioEntropyDeviceConfiguration()
         let networkDevice = VZVirtioNetworkDeviceConfiguration()
         networkDevice.attachment = VZNATNetworkDeviceAttachment()
+        if let macAddress = content.macAddress {
+            if let macAddress = VZMACAddress(string: macAddress) {
+                networkDevice.macAddress = macAddress
+            }
+        }
         
         let heightOfToolbar = 98.0
         let graphics = VZMacGraphicsDeviceConfiguration()

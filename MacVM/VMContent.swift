@@ -19,4 +19,6 @@ struct VMContent: Codable {
     var cpuCount: Int = 2
     var memorySize: UInt64 = 4 * 1024 * 1024 * 1024
     var diskSize: UInt64 = 32
+    
+    var macAddress: String?
 }
